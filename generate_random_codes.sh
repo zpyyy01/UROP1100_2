@@ -25,7 +25,6 @@ do
     gcc -g -o "$DEBUG_DIR/code_$i" "$CODE_DIR/code_$i.c"
     if [ $? -ne 0 ]; then
         echo "Compilation failed (with debug info): code_$i.c"
-        echo $i >> failed_numbers.txt
         continue
     fi
     echo "Successfully compiled (with debug info): code_$i.c"
@@ -34,19 +33,22 @@ do
     gcc -o "$NODEBUG_DIR/code_$i" "$CODE_DIR/code_$i.c"
     if [ $? -ne 0 ]; then
         echo "Compilation failed (without debug info): code_$i.c"
-        echo $i >> failed_numbers.txt
         continue
     fi
     echo "Successfully compiled (without debug info): code_$i.c"
 
     # Compare the two binaries
-    if diff -q "$DEBUG_DIR/code_$i" "$NODEBUG_DIR/code_$i" > /dev/null; then
-        echo "Binaries are the same: code_$i"
+    cmp "$DEBUG_DIR/code_$i" "$NODEBUG_DIR/code_$i"
+    if [ $? -ne 0 ]; then
+        echo "Binaries are different: code_$i.c"
+        # Record the failed number
+        echo $i >> failed_numbers.txt
+        continue
     else
-        echo "Binaries are different: code_$i"
+        echo "Binaries are the same: code_$i.c"
+        # Record the successful number
+        echo $i >> successful_numbers.txt
     fi
-    # Record the successful file number
-    echo $i >> successful_numbers.txt
 done
 
 echo "Done"
