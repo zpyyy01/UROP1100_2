@@ -13,10 +13,13 @@ mkdir -p "$CODE_DIR" "$DEBUG_DIR" "$NODEBUG_DIR"
 > successful_numbers.txt
 > failed_numbers.txt
 
-for i in $(seq 1 $NUM_SEEDS)
+for ((i = 1; i <= NUM_SEEDS; i++))
 do
+
+    SEED=$RANDOM
+
     # Generate C code
-    csmith --seed $i --main --output "$CODE_DIR/code_$i.c"
+    csmith --seed $SEED --main --output "$CODE_DIR/code_$i.c"
 
     # Compile with debugging information
     gcc -g -o "$DEBUG_DIR/code_$i" "$CODE_DIR/code_$i.c"
