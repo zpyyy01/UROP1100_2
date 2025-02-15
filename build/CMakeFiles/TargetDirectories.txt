@@ -1,0 +1,5 @@
+/home/zpyyy/UROP/UROP1100_2/build/CMakeFiles/rebuild_cache.dir
+/home/zpyyy/UROP/UROP1100_2/build/CMakeFiles/edit_cache.dir
+/home/zpyyy/UROP/UROP1100_2/build/CMakeFiles/my_executable.dir
+/home/zpyyy/UROP/UROP1100_2/build/CMakeFiles/clang-tablegen-targets.dir
+/home/zpyyy/UROP/UROP1100_2/build/CMakeFiles/intrinsics_gen.dir
