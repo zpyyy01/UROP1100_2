@@ -5,9 +5,8 @@ find_package(Clang REQUIRED CONFIG)
 
 include_directories(${CLANG_INCLUDE_DIRS})
 
-set(SOURCES
-    test.cpp  # 确保文件扩展名为 .cpp
-)
+# source: src/test.cpp
+set(SOURCES src/test.cpp)
 
 add_executable(my_executable ${SOURCES})
 target_link_libraries(my_executable clangTooling clangBasic clangAST clangEdit)

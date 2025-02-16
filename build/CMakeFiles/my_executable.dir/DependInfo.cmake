@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/zpyyy/UROP/UROP1100_2/test.cpp" "/home/zpyyy/UROP/UROP1100_2/build/CMakeFiles/my_executable.dir/test.cpp.o"
+  "/home/zpyyy/UROP/UROP1100_2/src/test.cpp" "/home/zpyyy/UROP/UROP1100_2/build/CMakeFiles/my_executable.dir/src/test.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "Clang")
 

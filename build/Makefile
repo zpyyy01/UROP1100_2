@@ -149,32 +149,32 @@ intrinsics_gen/fast:
 	$(MAKE) -f CMakeFiles/intrinsics_gen.dir/build.make CMakeFiles/intrinsics_gen.dir/build
 .PHONY : intrinsics_gen/fast
 
-test.o: test.cpp.o
+src/test.o: src/test.cpp.o
 
-.PHONY : test.o
+.PHONY : src/test.o
 
 # target to build an object file
-test.cpp.o:
-	$(MAKE) -f CMakeFiles/my_executable.dir/build.make CMakeFiles/my_executable.dir/test.cpp.o
-.PHONY : test.cpp.o
+src/test.cpp.o:
+	$(MAKE) -f CMakeFiles/my_executable.dir/build.make CMakeFiles/my_executable.dir/src/test.cpp.o
+.PHONY : src/test.cpp.o
 
-test.i: test.cpp.i
+src/test.i: src/test.cpp.i
 
-.PHONY : test.i
+.PHONY : src/test.i
 
 # target to preprocess a source file
-test.cpp.i:
-	$(MAKE) -f CMakeFiles/my_executable.dir/build.make CMakeFiles/my_executable.dir/test.cpp.i
-.PHONY : test.cpp.i
+src/test.cpp.i:
+	$(MAKE) -f CMakeFiles/my_executable.dir/build.make CMakeFiles/my_executable.dir/src/test.cpp.i
+.PHONY : src/test.cpp.i
 
-test.s: test.cpp.s
+src/test.s: src/test.cpp.s
 
-.PHONY : test.s
+.PHONY : src/test.s
 
 # target to generate assembly for a file
-test.cpp.s:
-	$(MAKE) -f CMakeFiles/my_executable.dir/build.make CMakeFiles/my_executable.dir/test.cpp.s
-.PHONY : test.cpp.s
+src/test.cpp.s:
+	$(MAKE) -f CMakeFiles/my_executable.dir/build.make CMakeFiles/my_executable.dir/src/test.cpp.s
+.PHONY : src/test.cpp.s
 
 # Help Target
 help:
@@ -187,9 +187,9 @@ help:
 	@echo "... my_executable"
 	@echo "... clang-tablegen-targets"
 	@echo "... intrinsics_gen"
-	@echo "... test.o"
-	@echo "... test.i"
-	@echo "... test.s"
+	@echo "... src/test.o"
+	@echo "... src/test.i"
+	@echo "... src/test.s"
 .PHONY : help
 
 

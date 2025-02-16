@@ -57,27 +57,27 @@ include CMakeFiles/my_executable.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/my_executable.dir/flags.make
 
-CMakeFiles/my_executable.dir/test.cpp.o: CMakeFiles/my_executable.dir/flags.make
-CMakeFiles/my_executable.dir/test.cpp.o: ../test.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/zpyyy/UROP/UROP1100_2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/my_executable.dir/test.cpp.o"
-	/usr/bin/clang++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/my_executable.dir/test.cpp.o -c /home/zpyyy/UROP/UROP1100_2/test.cpp
+CMakeFiles/my_executable.dir/src/test.cpp.o: CMakeFiles/my_executable.dir/flags.make
+CMakeFiles/my_executable.dir/src/test.cpp.o: ../src/test.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/zpyyy/UROP/UROP1100_2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/my_executable.dir/src/test.cpp.o"
+	/usr/bin/clang++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/my_executable.dir/src/test.cpp.o -c /home/zpyyy/UROP/UROP1100_2/src/test.cpp
 
-CMakeFiles/my_executable.dir/test.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/my_executable.dir/test.cpp.i"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/zpyyy/UROP/UROP1100_2/test.cpp > CMakeFiles/my_executable.dir/test.cpp.i
+CMakeFiles/my_executable.dir/src/test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/my_executable.dir/src/test.cpp.i"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/zpyyy/UROP/UROP1100_2/src/test.cpp > CMakeFiles/my_executable.dir/src/test.cpp.i
 
-CMakeFiles/my_executable.dir/test.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/my_executable.dir/test.cpp.s"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/zpyyy/UROP/UROP1100_2/test.cpp -o CMakeFiles/my_executable.dir/test.cpp.s
+CMakeFiles/my_executable.dir/src/test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/my_executable.dir/src/test.cpp.s"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/zpyyy/UROP/UROP1100_2/src/test.cpp -o CMakeFiles/my_executable.dir/src/test.cpp.s
 
 # Object files for target my_executable
 my_executable_OBJECTS = \
-"CMakeFiles/my_executable.dir/test.cpp.o"
+"CMakeFiles/my_executable.dir/src/test.cpp.o"
 
 # External object files for target my_executable
 my_executable_EXTERNAL_OBJECTS =
 
-my_executable: CMakeFiles/my_executable.dir/test.cpp.o
+my_executable: CMakeFiles/my_executable.dir/src/test.cpp.o
 my_executable: CMakeFiles/my_executable.dir/build.make
 my_executable: /usr/lib/llvm-10/lib/libclangTooling.a
 my_executable: /usr/lib/llvm-10/lib/libclangBasic.a
