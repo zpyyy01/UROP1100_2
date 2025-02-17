@@ -1,7 +1,7 @@
 [
 {
   "directory": "/home/zpyyy/UROP/UROP1100_2/build",
-  "command": "/usr/bin/clang++   -I/usr/lib/llvm-10/include  -g   -o CMakeFiles/my_executable.dir/src/test.cpp.o -c /home/zpyyy/UROP/UROP1100_2/src/test.cpp",
-  "file": "/home/zpyyy/UROP/UROP1100_2/src/test.cpp"
+  "command": "/usr/bin/clang++   -I/usr/lib/llvm-10/include  -g   -o CMakeFiles/a.dir/src/main.cpp.o -c /home/zpyyy/UROP/UROP1100_2/src/main.cpp",
+  "file": "/home/zpyyy/UROP/UROP1100_2/src/main.cpp"
 }
 ]

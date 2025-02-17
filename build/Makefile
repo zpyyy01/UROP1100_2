@@ -111,17 +111,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named my_executable
+# Target rules for targets named a
 
 # Build rule for target.
-my_executable: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 my_executable
-.PHONY : my_executable
+a : cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 a
+.PHONY : a
 
 # fast build rule for target.
-my_executable/fast:
-	$(MAKE) -f CMakeFiles/my_executable.dir/build.make CMakeFiles/my_executable.dir/build
-.PHONY : my_executable/fast
+a/fast:
+	$(MAKE) -f CMakeFiles/a.dir/build.make CMakeFiles/a.dir/build
+.PHONY : a/fast
 
 #=============================================================================
 # Target rules for targets named clang-tablegen-targets
@@ -149,32 +149,32 @@ intrinsics_gen/fast:
 	$(MAKE) -f CMakeFiles/intrinsics_gen.dir/build.make CMakeFiles/intrinsics_gen.dir/build
 .PHONY : intrinsics_gen/fast
 
-src/test.o: src/test.cpp.o
+src/main.o: src/main.cpp.o
 
-.PHONY : src/test.o
+.PHONY : src/main.o
 
 # target to build an object file
-src/test.cpp.o:
-	$(MAKE) -f CMakeFiles/my_executable.dir/build.make CMakeFiles/my_executable.dir/src/test.cpp.o
-.PHONY : src/test.cpp.o
+src/main.cpp.o:
+	$(MAKE) -f CMakeFiles/a.dir/build.make CMakeFiles/a.dir/src/main.cpp.o
+.PHONY : src/main.cpp.o
 
-src/test.i: src/test.cpp.i
+src/main.i: src/main.cpp.i
 
-.PHONY : src/test.i
+.PHONY : src/main.i
 
 # target to preprocess a source file
-src/test.cpp.i:
-	$(MAKE) -f CMakeFiles/my_executable.dir/build.make CMakeFiles/my_executable.dir/src/test.cpp.i
-.PHONY : src/test.cpp.i
+src/main.cpp.i:
+	$(MAKE) -f CMakeFiles/a.dir/build.make CMakeFiles/a.dir/src/main.cpp.i
+.PHONY : src/main.cpp.i
 
-src/test.s: src/test.cpp.s
+src/main.s: src/main.cpp.s
 
-.PHONY : src/test.s
+.PHONY : src/main.s
 
 # target to generate assembly for a file
-src/test.cpp.s:
-	$(MAKE) -f CMakeFiles/my_executable.dir/build.make CMakeFiles/my_executable.dir/src/test.cpp.s
-.PHONY : src/test.cpp.s
+src/main.cpp.s:
+	$(MAKE) -f CMakeFiles/a.dir/build.make CMakeFiles/a.dir/src/main.cpp.s
+.PHONY : src/main.cpp.s
 
 # Help Target
 help:
@@ -184,12 +184,12 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
-	@echo "... my_executable"
+	@echo "... a"
 	@echo "... clang-tablegen-targets"
 	@echo "... intrinsics_gen"
-	@echo "... src/test.o"
-	@echo "... src/test.i"
-	@echo "... src/test.s"
+	@echo "... src/main.o"
+	@echo "... src/main.i"
+	@echo "... src/main.s"
 .PHONY : help
 
 
