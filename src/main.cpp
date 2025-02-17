@@ -64,11 +64,10 @@ private:
 
 std::string ReplaceEqualOperatorAction::OutputFilePath;
 
-int main() {
-    std::string FilePath = "../compilable_codes/code_1.c";
+int process_code(int id_of_code) {
+    std::string FilePath = "../compilable_codes/code_"+std::to_string(id_of_code)+".c";
     llvm::outs() << "Processing: " << FilePath << "\n";
 
-    
     std::ifstream FileStream(FilePath);
     if (!FileStream) {
         llvm::errs() << "Failed to open file: " << FilePath << "\n";
@@ -86,6 +85,13 @@ int main() {
     } else {
         llvm::errs() << "Failed to process " << FilePath << "\n";
     }
+    return 0;
+}
 
+
+int main() {
+    for(int i=1;i<=100;i++){
+        process_code(i);
+    }
     return 0;
 }

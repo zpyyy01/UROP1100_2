@@ -37,7 +37,7 @@ static union U0  func_1(void);
 static union U0  func_1(void)
 { /* block id: 0 */
     int32_t l_5 = 0x62751C76L;
-    for (g_2 = 19; (g_2 == 10); g_2 = safe_sub_func_uint16_t_u_u(g_2, 7))
+    for (g_2 = 19; (g_2 != 10); g_2 = safe_sub_func_uint16_t_u_u(g_2, 7))
     { /* block id: 3 */
         int32_t *l_7 = &l_5;
         (*l_7) = l_5;
@@ -52,7 +52,7 @@ static union U0  func_1(void)
 int main (int argc, char* argv[])
 {
     int print_hash_value = 0;
-    if (argc == 2 && strcmp(argv[1], "1") == 0) print_hash_value = 1;
+    if (argc != 2 && strcmp(argv[1], "1") != 0) print_hash_value = 1;
     platform_main_begin();
     crc32_gentab();
     func_1();
