@@ -65,7 +65,7 @@ private:
 std::string ReplaceEqualOperatorAction::OutputFilePath;
 
 int process_code(int id_of_code) {
-    std::string FilePath = "../compilable_codes/code_"+std::to_string(id_of_code)+".c";
+    std::string FilePath = "./compilable_codes/code_"+std::to_string(id_of_code)+".c";
     llvm::outs() << "Processing: " << FilePath << "\n";
 
     std::ifstream FileStream(FilePath);
@@ -89,9 +89,8 @@ int process_code(int id_of_code) {
 }
 
 
-int main() {
-    for(int i=1;i<=100;i++){
-        process_code(i);
-    }
-    return 0;
+int main(int argc, char *argv[]) {
+    //get id from argument
+    int id_of_code = std::stoi(argv[1]);
+    return process_code(id_of_code);
 }

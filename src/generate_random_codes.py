@@ -25,9 +25,13 @@ for i in range(1, NUM_SEEDS + 1):
     # Generate C code
     subprocess.run(["csmith", "--seed", str(seed), "--main", "--output", f"{CODE_DIR}/code_{i}.c"])
 
+    # Modify the code to remove the debug information by running mian.cpp with an argument i
+    #temp_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "build/a")
+    subprocess.run(["./build/a", str(i)])
+
     # Compile with debugging information
     debug_compilation = subprocess.run(
-        ["gcc", "-g", "-o", f"{DEBUG_DIR}/code_{i}", f"{CODE_DIR}/code_{i}.c"],
+        ["gcc", "-w","-g" ,"-o", f"{DEBUG_DIR}/code_{i}", f"{CODE_DIR}/code_{i}.c"],
         stdout=subprocess.PIPE, stderr=subprocess.PIPE
     )
     if debug_compilation.returncode != 0:
@@ -37,7 +41,7 @@ for i in range(1, NUM_SEEDS + 1):
 
     # Compile without debugging information
     nodebug_compilation = subprocess.run(
-        ["gcc", "-o", f"{NODEBUG_DIR}/code_{i}", f"{CODE_DIR}/code_{i}.c"],
+        ["gcc", "-w","-o",f"{NODEBUG_DIR}/code_{i}", f"{CODE_DIR}/code_{i}.c"],
         stdout=subprocess.PIPE, stderr=subprocess.PIPE
     )
     if nodebug_compilation.returncode != 0:
