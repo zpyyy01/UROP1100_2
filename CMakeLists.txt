@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 project(ReplaceEqualOperator)
 
+set(CMAKE_CXX_STANDARD 17)
+
 find_package(Clang REQUIRED CONFIG)
 
 include_directories(${CLANG_INCLUDE_DIRS})

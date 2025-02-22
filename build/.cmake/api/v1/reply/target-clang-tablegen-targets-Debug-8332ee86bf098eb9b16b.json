@@ -1,5 +1,5 @@
 {
-	"backtrace" : 5,
+	"backtrace" : 3,
 	"backtraceGraph" : 
 	{
 		"commands" : 
@@ -9,45 +9,34 @@
 		],
 		"files" : 
 		[
-			"/usr/lib/llvm-10/lib/cmake/llvm/LLVMConfig.cmake",
 			"/usr/lib/cmake/clang-10/ClangConfig.cmake",
 			"CMakeLists.txt"
 		],
 		"nodes" : 
 		[
 			{
-				"file" : 2
+				"file" : 1
 			},
 			{
 				"command" : 1,
-				"file" : 2,
-				"line" : 4,
+				"file" : 1,
+				"line" : 6,
 				"parent" : 0
 			},
 			{
-				"file" : 1,
-				"parent" : 1
-			},
-			{
-				"command" : 1,
-				"file" : 1,
-				"line" : 11,
-				"parent" : 2
-			},
-			{
 				"file" : 0,
-				"parent" : 3
+				"parent" : 1
 			},
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 268,
-				"parent" : 4
+				"line" : 25,
+				"parent" : 2
 			}
 		]
 	},
-	"id" : "intrinsics_gen::@6890427a1f51a3e7e1df",
-	"name" : "intrinsics_gen",
+	"id" : "clang-tablegen-targets::@6890427a1f51a3e7e1df",
+	"name" : "clang-tablegen-targets",
 	"paths" : 
 	{
 		"build" : ".",
