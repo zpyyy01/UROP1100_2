@@ -1,7 +1,0 @@
-[
-{
-  "directory": "/home/zpyyy/UROP/UROP1100_2/build",
-  "command": "/usr/bin/clang++   -I/usr/lib/llvm-10/include  -g   -std=gnu++17 -o CMakeFiles/a.dir/src/main.cpp.o -c /home/zpyyy/UROP/UROP1100_2/src/main.cpp",
-  "file": "/home/zpyyy/UROP/UROP1100_2/src/main.cpp"
-}
-]
