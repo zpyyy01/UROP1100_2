@@ -1,6 +1,6 @@
-/build/
-/debug_binaries/
-/nodebug_binaries/
+build/
+debug_binaries/
+nodebug_binaries/
 *.o
 *.exe
 *.dll
