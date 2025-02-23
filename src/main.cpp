@@ -7,62 +7,9 @@
 #include "llvm/Support/raw_ostream.h"
 #include <iostream>
 #include <fstream>
+#include "ReplaceEqualOperatorVisitor.h"
 
 using namespace clang;
-
-class ReplaceEqualOperatorVisitor : public RecursiveASTVisitor<ReplaceEqualOperatorVisitor> {
-public:
-    explicit ReplaceEqualOperatorVisitor(Rewriter &R) : Rewrite(R) {}
-
-    bool VisitBinaryOperator(BinaryOperator *BO) {
-        if (BO->getOpcode() == BO_EQ) {
-            SourceRange Range = BO->getOperatorLoc();
-            Rewrite.ReplaceText(Range, "!=");
-        }
-        return true;
-    }
-
-private:
-    Rewriter &Rewrite;
-};
-
-class ReplaceEqualOperatorConsumer : public ASTConsumer {
-public:
-    explicit ReplaceEqualOperatorConsumer(Rewriter &R) : Visitor(R) {}
-
-    void HandleTranslationUnit(ASTContext &Context) override {
-        Visitor.TraverseDecl(Context.getTranslationUnitDecl());
-    }
-
-private:
-    ReplaceEqualOperatorVisitor Visitor;
-};
-
-class ReplaceEqualOperatorAction : public ASTFrontendAction {
-public:
-    static std::string OutputFilePath;
-
-    std::unique_ptr<ASTConsumer> CreateASTConsumer(CompilerInstance &CI, StringRef file) override {
-        Rewrite.setSourceMgr(CI.getSourceManager(), CI.getLangOpts());
-        return std::make_unique<ReplaceEqualOperatorConsumer>(Rewrite);
-    }
-
-    void EndSourceFileAction() override {
-        std::error_code EC;
-        llvm::raw_fd_ostream OutFile(OutputFilePath, EC);
-        if (EC) {
-            llvm::errs() << "Error opening output file: " << EC.message() << "\n";
-            return;
-        }
-        Rewrite.getEditBuffer(Rewrite.getSourceMgr().getMainFileID()).write(OutFile);
-        OutFile.close();
-    }
-
-private:
-    Rewriter Rewrite;
-};
-
-std::string ReplaceEqualOperatorAction::OutputFilePath;
 
 int process_code(int id_of_code) {
     std::string FilePath = "./compilable_codes/code_"+std::to_string(id_of_code)+".c";
