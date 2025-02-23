@@ -1,6 +1,7 @@
 build/
 debug_binaries/
 nodebug_binaries/
+compilable_codes/
 *.o
 *.exe
 *.dll
