@@ -3,7 +3,7 @@ import subprocess
 import random
 
 # Default parameters
-NUM_SEEDS = 100
+NUM_SEEDS = 2
 CODE_DIR = "compilable_codes"
 DEBUG_DIR = "debug_binaries"
 NODEBUG_DIR = "nodebug_binaries"

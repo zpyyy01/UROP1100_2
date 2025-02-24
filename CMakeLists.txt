@@ -10,7 +10,7 @@ find_package(Clang REQUIRED CONFIG)
 include_directories(${CLANG_INCLUDE_DIRS})
 
 # Add libraries
-add_library(MyLibrary STATIC src/ASTvisitor.cpp)
+add_library(MyLibrary STATIC src/ModifyAST.cpp)
 add_library(MyLibrary2 STATIC src/ReplaceEqualOperatorVisitor.cpp)
 
 # Include directories for headers

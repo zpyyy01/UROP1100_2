@@ -8,8 +8,10 @@
 #include <iostream>
 #include <fstream>
 #include "ReplaceEqualOperatorVisitor.h"
+#include "ModifyAST.cpp"
 
 using namespace clang;
+using namespace ModifyAST;
 
 int process_code(int id_of_code) {
     std::string FilePath = "./compilable_codes/code_"+std::to_string(id_of_code)+".c";
@@ -24,14 +26,22 @@ int process_code(int id_of_code) {
                      std::istreambuf_iterator<char>());
     FileStream.close();
 
-    
-    ReplaceEqualOperatorAction::OutputFilePath = FilePath;
+    ModifyASTAction::OutputFilePath = FilePath;
 
-    if (clang::tooling::runToolOnCode(std::make_unique<ReplaceEqualOperatorAction>(), Code, FilePath)) {
-        llvm::outs() << "Successfully replaced all == with != in " << FilePath << "\n";
+    if (clang::tooling::runToolOnCode(std::make_unique<ModifyASTAction>(), Code, FilePath)) {
+        llvm::outs() << "Successfully processed " << FilePath << "\n";
     } else {
         llvm::errs() << "Failed to process " << FilePath << "\n";
     }
+
+
+    // ReplaceEqualOperatorAction::OutputFilePath = FilePath;
+
+    // if (clang::tooling::runToolOnCode(std::make_unique<ReplaceEqualOperatorAction>(), Code, FilePath)) {
+    //     llvm::outs() << "Successfully replaced all == with != in " << FilePath << "\n";
+    // } else {
+    //     llvm::errs() << "Failed to process " << FilePath << "\n";
+    // }
     return 0;
 }
 
