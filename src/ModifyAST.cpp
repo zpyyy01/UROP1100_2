@@ -31,30 +31,72 @@ public:
         //     rewriter.InsertText(ST, "/*This is a binary operator*/", true, true);
         // }
         
-        return LowerExpr(E);
+        LowerExpr(E);
+        return true;
     }
 
 private:
     Rewriter &rewriter;
 
-    bool LowerExpr(Expr *E) {
-        //if(rand() % 2 == 0) return true;
-        if(E->getStmtClassName() == "BinaryOperator") {
-            BinaryOperator *B = cast<BinaryOperator>(E);
-            return LowerBinaryOperator(B);
+    string LowerExpr(Expr *E) {
+        if (auto *UO = dyn_cast<UnaryOperator>(E)) {
+            // If the expression is a unary operator, call LowerUnaryOperator
+            LowerUnaryOperator(UO);
+            return "_temp_" + to_string(variableCounter - 1);  // Return the generated variable name
+        } else if (auto *BO = dyn_cast<BinaryOperator>(E)) {
+            // If the expression is a binary operator, call LowerBinaryOperator
+            LowerBinaryOperator(BO);
+            return "_temp_" + to_string(variableCounter - 1);  // Return the generated variable name
+        } else {
+            // If the expression is a plain expression, return its source text
+            SourceManager &SM = rewriter.getSourceMgr();
+            return Lexer::getSourceText(CharSourceRange::getTokenRange(E->getSourceRange()), SM, LangOptions());
         }
-        return true;
     }
 
     bool LowerBinaryOperator(BinaryOperator *B) {
         Expr *LHS = B->getLHS();
         Expr *RHS = B->getRHS();
-        LowerExpr(LHS);
-        LowerExpr(RHS);
-        //create a variable name that does not exist in the code
-        string varName = "auto _myvar" + to_string(variableCounter++);
-        //create a new variable declaration
-        rewriter.InsertText(B->getOperatorLoc(), varName + " = " + LHS->getSourceRange().getBegin().printToString(rewriter.getSourceMgr()) + " " + B->getOpcodeStr().str() + " " + RHS->getSourceRange().getBegin().printToString(rewriter.getSourceMgr()), true, true);
+
+        // Recursively lower the left and right operands
+        string lhsVar = LowerExpr(LHS);  // Assume LowerExpr returns the lowered variable name
+        string rhsVar = LowerExpr(RHS);
+
+        // Generate a unique variable name
+        string varName = "_temp_" + to_string(variableCounter++);
+
+        // Construct the assignment statement
+        string newAssignment = varName + " = " + lhsVar + " " + B->getOpcodeStr().str() + " " + rhsVar;
+
+        // Insert the assignment statement before the binary operator
+        rewriter.InsertText(B->getBeginLoc(), newAssignment + "; ", true, true);
+
+        // Replace the entire binary operator expression with the generated variable name
+        rewriter.ReplaceText(B->getSourceRange(), varName);
+
+        return true;
+    }
+    bool LowerUnaryOperator(UnaryOperator *U) {
+        Expr *E = U->getSubExpr();
+    
+        // Recursively lower the sub-expression
+        string exprVar = LowerExpr(E);  // Assume LowerExpr returns the lowered variable name
+    
+        // Generate a unique variable name
+        string varName = "_temp_" + to_string(variableCounter++);
+    
+        // Get the operator string using the operator code
+        string opStr = UnaryOperator::getOpcodeStr(U->getOpcode()).str();
+    
+        // Construct the assignment statement
+        string newAssignment = varName + " = " + opStr + exprVar;
+    
+        // Insert the assignment statement before the unary operator
+        rewriter.InsertText(U->getBeginLoc(), newAssignment + "; ", true, true);
+    
+        // Replace the entire unary operator expression with the generated variable name
+        rewriter.ReplaceText(U->getSourceRange(), varName);
+    
         return true;
     }
 };
