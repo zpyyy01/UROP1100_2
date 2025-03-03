@@ -54,5 +54,7 @@
         "typeinfo": "cpp",
         "codecvt": "cpp",
         "iomanip": "cpp"
-    }
+    },
+    "workbench.preferredDarkColorTheme": "Default Light Modern",
+    "workbench.colorTheme": "Default Light Modern"
 }
