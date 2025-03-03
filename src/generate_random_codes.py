@@ -3,7 +3,7 @@ import subprocess
 import random
 
 # Default parameters
-NUM_SEEDS = 2
+NUM_SEEDS = 1
 CODE_DIR = "compilable_codes"
 DEBUG_DIR = "debug_binaries"
 NODEBUG_DIR = "nodebug_binaries"
@@ -23,11 +23,13 @@ for i in range(1, NUM_SEEDS + 1):
     seed = random.randint(0, 2**32 - 1)
 
     # Generate C code
-    subprocess.run(["csmith", "--seed", str(seed), "--main", "--output", f"{CODE_DIR}/code_{i}.c"])
+    #subprocess.run(["csmith", "--seed", str(seed), "--main", "--output", f"{CODE_DIR}/code_{i}.c"])
 
     # Modify the code to remove the debug information by running mian.cpp with an argument i
     #temp_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "build/a")
     subprocess.run(["./build/a", str(i)])
+    
+    print(f"Generated code_{i}.c")
 
     # Compile with debugging information
     debug_compilation = subprocess.run(

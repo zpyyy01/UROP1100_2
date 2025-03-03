@@ -15,11 +15,11 @@ using namespace ModifyAST;
 
 int process_code(int id_of_code) {
     std::string FilePath = "./compilable_codes/code_"+std::to_string(id_of_code)+".c";
-    llvm::outs() << "Processing: " << FilePath << "\n";
+    //llvm::outs() << "Processing: " << FilePath << "\n";
 
     std::ifstream FileStream(FilePath);
     if (!FileStream) {
-        llvm::errs() << "Failed to open file: " << FilePath << "\n";
+        //llvm::errs() << "Failed to open file: " << FilePath << "\n";
         return 1;
     }
     std::string Code((std::istreambuf_iterator<char>(FileStream)),
@@ -29,11 +29,10 @@ int process_code(int id_of_code) {
     ModifyASTAction::OutputFilePath = FilePath;
 
     if (clang::tooling::runToolOnCode(std::make_unique<ModifyASTAction>(), Code, FilePath)) {
-        llvm::outs() << "Successfully processed " << FilePath << "\n";
+        //llvm::outs() << "Successfully processed " << FilePath << "\n";
     } else {
-        llvm::errs() << "Failed to process " << FilePath << "\n";
+        //llvm::errs() << "Failed to process " << FilePath << "\n";
     }
-
 
     // ReplaceEqualOperatorAction::OutputFilePath = FilePath;
 
@@ -49,5 +48,6 @@ int process_code(int id_of_code) {
 int main(int argc, char *argv[]) {
     //get id from argument
     int id_of_code = std::stoi(argv[1]);
-    return process_code(id_of_code);
+    process_code(id_of_code);
+    return 0;
 }
