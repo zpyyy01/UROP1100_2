@@ -53,7 +53,9 @@
         "cinttypes": "cpp",
         "typeinfo": "cpp",
         "codecvt": "cpp",
-        "iomanip": "cpp"
+        "iomanip": "cpp",
+        "*.inc": "cpp",
+        "*.def": "cpp"
     },
     "workbench.preferredDarkColorTheme": "Default Light Modern",
     "workbench.colorTheme": "Default Light Modern"

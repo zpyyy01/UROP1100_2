@@ -15,13 +15,11 @@ using namespace ModifyAST;
 
 int process_code(int id_of_code) {
     std::string FilePath = "./compilable_codes/code_"+std::to_string(id_of_code)+".c";
-    //llvm::outs() << "Processing: " << FilePath << "\n";
-    
     std::cout<<"Processing: "<<FilePath<<std::endl;
 
     std::ifstream FileStream(FilePath);
     if (!FileStream) {
-        //llvm::errs() << "Failed to open file: " << FilePath << "\n";
+        llvm::errs() << "Failed to open file: " << FilePath << "\n";
         return 1;
     }
     std::string Code((std::istreambuf_iterator<char>(FileStream)),
@@ -31,9 +29,9 @@ int process_code(int id_of_code) {
     ModifyASTAction::OutputFilePath = FilePath;
 
     if (clang::tooling::runToolOnCode(std::make_unique<ModifyASTAction>(), Code, FilePath)) {
-        //llvm::outs() << "Successfully processed " << FilePath << "\n";
+        llvm::outs() << "Successfully modified AST in " << FilePath << "\n";
     } else {
-        //llvm::errs() << "Failed to process " << FilePath << "\n";
+        llvm::errs() << "Failed to process " << FilePath << "\n";
     }
 
     // ReplaceEqualOperatorAction::OutputFilePath = FilePath;

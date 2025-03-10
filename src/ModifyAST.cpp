@@ -5,6 +5,8 @@
 #include "clang/Frontend/CompilerInstance.h"
 #include "clang/Frontend/FrontendAction.h"
 #include "llvm/Support/raw_ostream.h"
+#include "clang/AST/ASTContext.h"
+#include "clang/AST/ParentMap.h"
 #include <memory>
 #include <ctime>
 
@@ -20,10 +22,7 @@ namespace ModifyAST {
 class MyASTVisitor : public RecursiveASTVisitor<MyASTVisitor> {
 
 public:
-    explicit MyASTVisitor(Rewriter &R) : rewriter(R) {
-        srand(static_cast<unsigned int>(time(0)));
-    }
-
+    MyASTVisitor(ASTContext &Context, Rewriter &R): Context(Context), rewriter(R){}
     //if visit a expression, print it
     bool VisitExpr(Expr *E) {
         // if (string(E->getStmtClassName()) == "BinaryOperator") {
@@ -32,21 +31,47 @@ public:
         //     rewriter.InsertText(ST, "/*This is a binary operator*/", true, true);
         // }
 
+        //print the parent of the expression
+        // llvm::outs() << "Expr: " << rewriter.getRewrittenText(E->getSourceRange()) << "\n";
+        // Stmt *parent = getParent(E);
+        // if (parent) {
+        //     llvm::outs() << "Parent: " << rewriter.getRewrittenText(parent->getSourceRange()) << "\n";
+        // }
         LowerExpr(E);
         return true;
     }
+    Stmt *getParent(Stmt *S) {
+        auto It = ParentMap.find(S);
+        if (It != ParentMap.end()) {
+        return dyn_cast<Stmt>(It->second);
+        }
+        return nullptr;
+    }
+
+    bool TraverseStmt(Stmt *S) {
+        if (!ParentStack.empty()) {
+        ParentMap[S] = ParentStack.top();
+        }
+        ParentStack.push(S);
+        RecursiveASTVisitor<MyASTVisitor>::TraverseStmt(S);
+        ParentStack.pop();
+        return true;
+    }
+
+    std::string getSourceText(SourceRange Range) {
+        return rewriter.getRewrittenText(Range);
+    }
 
 private:
+    ASTContext &Context;
     Rewriter &rewriter;
+    std::stack<Stmt *> ParentStack; 
+    std::map<Stmt *, Stmt *> ParentMap; 
 
     string LowerExpr(Expr *E) {
-
-
         if (auto *UO = dyn_cast<UnaryOperator>(E)) {
-            // If the expression is a unary operator, call LowerUnaryOperator
-            return LowerUnaryOperator(UO); 
+            //return LowerUnaryOperator(UO); 
         } else if (auto *BO = dyn_cast<BinaryOperator>(E)) {
-            // If the expression is a binary operator, call LowerBinaryOperator
             return LowerBinaryOperator(BO);
         } else {
             // If the expression is a plain expression, return E as string
@@ -57,42 +82,25 @@ private:
     string LowerBinaryOperator(BinaryOperator *B) {
         Expr *LHS = B->getLHS();
         Expr *RHS = B->getRHS();
-
+        //Stmt *parent = B->getParent();
         //print LHS RHS BOP
         llvm::outs() << "LHS: " << rewriter.getRewrittenText(LHS->getSourceRange()) << "\n";
         llvm::outs() << "RHS: " << rewriter.getRewrittenText(RHS->getSourceRange()) << "\n";
-
 
         // Recursively lower the left and right operands
         string lhsVar = LowerExpr(LHS);  // Assume LowerExpr returns the lowered variable name
         string rhsVar = LowerExpr(RHS);
 
         // Generate a unique variable name
-        string varName = "_temp_" + to_string(variableCounter++);
+        string varName = " temp_" + to_string(variableCounter++);
 
         // Construct the assignment statement
-        string newAssignment = "auto" + varName + " = " + lhsVar + " " + B->getOpcodeStr().str() + " " + rhsVar;
-        
+        string newAssignment = "auto" + varName + " = " + lhsVar + " " + B->getOpcodeStr().str() + " " + rhsVar + ";\n";
         rewriter.ReplaceText(B->getSourceRange(), varName);
-        // Insert the assignment statement before the statement
-        rewriter.InsertText(B->getBeginLoc(), newAssignment + "; ", true, true);
-
-        return varName;
-    }
-    string LowerUnaryOperator(UnaryOperator *U) {
-        Expr *subExpr = U->getSubExpr();
-        string subVar = LowerExpr(subExpr);
-
-        // Generate a unique variable name
-        string varName = "_temp_" + to_string(variableCounter++);
-
-        // Construct the assignment statement
-        string newAssignment = varName + " = " + U->getOpcodeStr(U->getOpcode()).str() + subVar; 
-        // replace the entire unary operator expression with the generated variable name
-        rewriter.ReplaceText(U->getSourceRange(), varName);
-        // Insert the assignment statement before the unary operator
-        rewriter.InsertText(U->getBeginLoc(), newAssignment + "; ", true, true);
-
+        if(Stmt *parent = getParent(B)){
+            SourceLocation ParentStart = parent->getBeginLoc();
+            rewriter.InsertTextBefore(ParentStart, newAssignment);
+        }
         return varName;
     }
 };
@@ -100,7 +108,7 @@ private:
 class MyASTConsumer : public ASTConsumer {
 
 public:
-    explicit MyASTConsumer(Rewriter &R) : visitor(R) {}
+    explicit MyASTConsumer(ASTContext &C, Rewriter &R) : visitor(C, R) {}
 
     void HandleTranslationUnit(ASTContext &Context) override {
         visitor.TraverseDecl(Context.getTranslationUnitDecl());
@@ -113,20 +121,12 @@ class ModifyASTAction : public ASTFrontendAction {
 public:
     static string OutputFilePath;
 
-    unique_ptr<ASTConsumer> CreateASTConsumer(CompilerInstance &CI, StringRef file) override{
-
-
-
+    unique_ptr<ASTConsumer> CreateASTConsumer(CompilerInstance &CI, StringRef file) override {
         rewriter.setSourceMgr(CI.getSourceManager(), CI.getLangOpts());
-
-
-
-        return make_unique<MyASTConsumer>(rewriter);
+        return make_unique<MyASTConsumer>(CI.getASTContext(), rewriter);
     }
 
 void EndSourceFileAction() override{  
-
-
     std::error_code EC;
     llvm::raw_fd_ostream OutFile(OutputFilePath, EC);
     if (EC) {
